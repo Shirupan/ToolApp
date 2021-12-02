@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/ivPicBg"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/f2"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginBottom="@dimen/dp_20"
+            android:layout_marginStart="@dimen/dp_30"
+            android:layout_marginEnd="@dimen/dp_30"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/tvLeft"/>
+
+        <TextView
+            android:id="@+id/tvTip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="点击选择图片"
+            android:textSize="@dimen/sp_20"
+            android:textColor="@color/color_99"
+            app:layout_constraintStart_toStartOf="@id/ivPicBg"
+            app:layout_constraintEnd_toEndOf="@id/ivPicBg"
+            app:layout_constraintTop_toTopOf="@id/ivPicBg"
+            app:layout_constraintBottom_toBottomOf="@id/ivPicBg"
+            />
+
+        <ImageView
+            android:id="@+id/ivPic"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="fitCenter"
+            app:layout_constraintStart_toStartOf="@id/ivPicBg"
+            app:layout_constraintEnd_toEndOf="@id/ivPicBg"
+            app:layout_constraintTop_toTopOf="@id/ivPicBg"
+            app:layout_constraintBottom_toBottomOf="@id/ivPicBg"/>
+
+
+        <TextView
+            android:id="@+id/tvLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:gravity="bottom"
+            android:layout_marginBottom="@dimen/dp_20"
+            android:text="向左旋转"
+            android:textColor="@color/color_66"
+            android:textSize="@dimen/sp_15"
+            app:layout_constraintBottom_toTopOf="@id/btnFinsh"
+            app:layout_constraintStart_toStartOf="@id/btnFinsh"/>
+
+
+        <TextView
+            android:id="@+id/tvMirror"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:gravity="bottom"
+            android:text="  镜像  "
+            android:textColor="@color/color_66"
+            android:textSize="@dimen/sp_15"
+            app:layout_constraintBottom_toBottomOf="@id/tvLeft"
+            app:layout_constraintStart_toStartOf="@id/btnFinsh"
+            app:layout_constraintEnd_toEndOf="@id/btnFinsh"/>
+
+        <TextView
+            android:id="@+id/tvRight"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:gravity="bottom"
+            android:text="向右旋转"
+            android:textColor="@color/color_66"
+            android:textSize="@dimen/sp_15"
+            app:layout_constraintBottom_toBottomOf="@id/tvLeft"
+            app:layout_constraintEnd_toEndOf="@id/btnFinsh"/>
+
+        <Button
+            android:id="@+id/btnFinsh"
+            style="@style/SBtn"
+            android:text="保存"
+            android:layout_marginBottom="@dimen/dp_15"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/ivPicBg"
+            app:layout_constraintEnd_toEndOf="@id/ivPicBg"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

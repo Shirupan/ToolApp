@@ -1,0 +1,4 @@
+include ':common'
+include ':app'
+include ':lib_screen_adapter'
+rootProject.name = "My Application"

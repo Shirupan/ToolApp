@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/bg"
+            android:layout_width="@dimen/dp_251"
+            android:layout_height="0dp"
+            android:background="@drawable/shape_white_10"
+            app:layout_constraintTop_toTopOf="@id/tvTitle"
+            app:layout_constraintBottom_toBottomOf="@id/btnOk"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/dp_25"
+            android:gravity="center"
+            tools:text="温馨提示"
+            android:textStyle="bold"
+            android:textColor="@color/color_33"
+            android:textSize="@dimen/sp_17"
+            app:layout_constraintEnd_toEndOf="@id/bg"
+            app:layout_constraintStart_toStartOf="@id/bg"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/tvContext"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_15"
+            android:layout_marginStart="@dimen/dp_15"
+            android:layout_marginEnd="@dimen/dp_15"
+            android:gravity="center"
+            android:textColor="@color/color_33"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintEnd_toEndOf="@id/bg"
+            app:layout_constraintStart_toStartOf="@id/bg"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle"
+            tools:text="请不要上传带有水印的图片" />
+
+
+        <TextView
+            android:id="@+id/btnCancel"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_48"
+            android:layout_marginTop="@dimen/dp_23"
+            android:gravity="center"
+            android:text="取消"
+            android:textColor="@color/color_66"
+            android:textSize="@dimen/sp_14"
+            app:layout_constraintTop_toBottomOf="@id/tvContext"
+            app:layout_constraintStart_toStartOf="@id/bg"
+            app:layout_constraintEnd_toStartOf="@id/btnOk"/>
+
+        <TextView
+            android:id="@+id/btnOk"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_48"
+            android:layout_marginTop="@dimen/dp_23"
+            android:gravity="center"
+            android:text="确认"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/sp_14"
+            app:layout_constraintTop_toBottomOf="@id/tvContext"
+            app:layout_constraintStart_toEndOf="@id/btnCancel"
+            app:layout_constraintEnd_toEndOf="@id/bg"/>
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="#E9E9E9"
+            app:layout_constraintTop_toTopOf="@id/btnOk"
+            app:layout_constraintStart_toStartOf="@id/bg"
+            app:layout_constraintEnd_toEndOf="@id/bg"/>
+
+        <ImageView
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:background="#E9E9E9"
+            app:layout_constraintTop_toTopOf="@id/btnOk"
+            app:layout_constraintBottom_toBottomOf="@id/btnOk"
+            app:layout_constraintStart_toStartOf="@id/bg"
+            app:layout_constraintEnd_toEndOf="@id/bg"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

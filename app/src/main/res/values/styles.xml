@@ -1,0 +1,37 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="dialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowFrame">@null</item><!-- 边框 -->
+        <item name="android:windowIsTranslucent">true</item><!-- 半透明 -->
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item><!-- dialog背景样式 -->
+    </style>
+
+    <style name="SBtn">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dp_55</item>
+        <item name="android:layout_marginStart">@dimen/dp_10</item>
+        <item name="android:layout_marginEnd">@dimen/dp_10</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/color_33</item>
+        <item name="android:textSize">@dimen/sp_15</item>
+    </style>
+
+    <style name="RandomEditText">
+        <item name="android:layout_width">@dimen/dp_70</item>
+        <item name="android:layout_height">@dimen/dp_35</item>
+        <item name="android:background">@drawable/shape_bg_random_et</item>
+        <item name="android:padding">@dimen/dp_5</item>
+        <item name="android:gravity">center</item>
+        <item name="android:inputType">number</item>
+        <item name="android:textColor">@color/color_33</item>
+        <item name="android:textSize">@dimen/sp_15</item>
+    </style>
+
+</resources>
