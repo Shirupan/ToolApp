@@ -1,4 +1,4 @@
-include ':common'
+include ':lib_common'
 include ':app'
 include ':lib_screen_adapter'
-rootProject.name = "My Application"
+rootProject.name = "Tool App"

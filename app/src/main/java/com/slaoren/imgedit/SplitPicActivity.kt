@@ -9,11 +9,10 @@ import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentActivity
-import com.pan.common.Common
 import com.slaoren.R
-import com.pan.common.customview.DialogDoubleBtn
+import com.slaoren.common.customview.DialogDoubleBtn
 import com.slaoren.databinding.ActivityCutPicBinding
-import com.pan.common.util.*
+import com.slaoren.common.util.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -152,7 +151,7 @@ class SplitPicActivity: FragmentActivity(), View.OnClickListener, CoroutineScope
                 val list = b.split(x, y)
                 b.split(x, y)?.forEachIndexed { index, imagePiece ->
                     launch {
-                        val file = File(com.pan.common.Common.filePath(this@SplitPicActivity) + "/" + time+index+".jpg")
+                        val file = File(com.slaoren.common.Common.filePath(this@SplitPicActivity) + "/" + time+index+".jpg")
                         val bos = BufferedOutputStream(FileOutputStream(file))
                         imagePiece.compress(Bitmap.CompressFormat.JPEG, 100, bos)
                         bos.close()

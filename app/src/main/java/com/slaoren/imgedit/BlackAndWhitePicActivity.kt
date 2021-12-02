@@ -13,11 +13,10 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.core.view.drawToBitmap
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentActivity
-import com.pan.common.Common
 import com.slaoren.R
-import com.pan.common.customview.DialogDoubleBtn
+import com.slaoren.common.customview.DialogDoubleBtn
 import com.slaoren.databinding.ActivityBlackAndWhitePicBinding
-import com.pan.common.util.*
+import com.slaoren.common.util.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -68,7 +67,7 @@ class BlackAndWhitePicActivity: FragmentActivity(), View.OnClickListener, Corout
                 val time = System.currentTimeMillis()
                 launch {
                     val file =
-                        File(com.pan.common.Common.filePath(this@BlackAndWhitePicActivity) + "/" + time + ".jpg")
+                        File(com.slaoren.common.Common.filePath(this@BlackAndWhitePicActivity) + "/" + time + ".jpg")
                     val bos = BufferedOutputStream(FileOutputStream(file))
                     mBinding.ivPic.drawToBitmap().compress(Bitmap.CompressFormat.JPEG, 100, bos)
                     bos.close()

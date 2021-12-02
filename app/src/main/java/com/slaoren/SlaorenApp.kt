@@ -1,7 +1,7 @@
 package com.slaoren
 
 import android.app.Application
-import com.pan.common.util.SLog
+import com.slaoren.common.util.SLog
 
 class SlaorenApp: Application() {
     override fun onCreate() {

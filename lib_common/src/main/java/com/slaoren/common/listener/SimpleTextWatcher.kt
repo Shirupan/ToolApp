@@ -1,4 +1,4 @@
-package com.pan.common.listener
+package com.slaoren.common.listener
 
 import android.text.Editable
 import android.text.TextWatcher

@@ -5,14 +5,6 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="dialog" parent="Theme.AppCompat.Light.Dialog">
-        <item name="android:colorBackgroundCacheHint">@null</item>
-        <item name="android:windowFrame">@null</item><!-- 边框 -->
-        <item name="android:windowIsTranslucent">true</item><!-- 半透明 -->
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item><!-- dialog背景样式 -->
-    </style>
-
     <style name="SBtn">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/dp_55</item>

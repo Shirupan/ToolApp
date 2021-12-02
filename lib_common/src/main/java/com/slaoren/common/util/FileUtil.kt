@@ -1,4 +1,4 @@
-package com.pan.common.util
+package com.slaoren.common.util
 
 import android.content.ContentValues
 import android.content.Context

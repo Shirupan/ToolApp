@@ -1,6 +1,6 @@
 package com.slaoren.paopai.data
 
-import com.pan.common.util.SLog
+import com.slaoren.common.util.SLog
 
 class Player {
     var cards= mutableListOf<Card>()

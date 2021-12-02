@@ -1,4 +1,4 @@
-package com.pan.common
+package com.slaoren.common
 
 import org.junit.Test
 

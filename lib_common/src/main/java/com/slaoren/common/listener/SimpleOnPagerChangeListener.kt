@@ -1,4 +1,4 @@
-package com.pan.common.listener
+package com.slaoren.common.listener
 
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 

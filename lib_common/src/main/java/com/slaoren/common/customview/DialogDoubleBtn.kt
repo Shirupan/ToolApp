@@ -1,12 +1,12 @@
-package com.pan.common.customview
+package com.slaoren.common.customview
 
 import android.app.Dialog
 import android.os.Bundle
 import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
-import com.slaoren.R
-import com.slaoren.databinding.DialogDoubleBtnBinding
+import com.slaoren.common.R
+import com.slaoren.common.databinding.DialogDoubleBtnBinding
 
 class DialogDoubleBtn(val title:String?=null, val content:String?=null, val btnMsg:String?=null, val listener:Listener?=null): DialogFragment(){
 

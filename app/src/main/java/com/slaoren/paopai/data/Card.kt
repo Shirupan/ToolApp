@@ -1,6 +1,6 @@
 package com.slaoren.paopai.data
 
-import com.pan.common.data.BaseData
+import com.slaoren.common.data.BaseData
 
 data class Card(
         val text:String,

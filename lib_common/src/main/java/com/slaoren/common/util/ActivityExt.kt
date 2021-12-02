@@ -1,4 +1,4 @@
-package com.pan.common.util
+package com.slaoren.common.util
 
 import android.app.Activity
 import android.content.Intent

@@ -11,12 +11,11 @@ import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentActivity
-import com.pan.common.Common
 import com.slaoren.R
-import com.pan.common.customview.DialogDoubleBtn
+import com.slaoren.common.customview.DialogDoubleBtn
 import com.slaoren.databinding.ActivityChangePicBinding
-import com.pan.common.listener.SimpleOnSeekBarChangeListener
-import com.pan.common.util.*
+import com.slaoren.common.listener.SimpleOnSeekBarChangeListener
+import com.slaoren.common.util.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -97,7 +96,7 @@ class ChangePicActivity: FragmentActivity(), View.OnClickListener, CoroutineScop
                 }
                 val time = System.currentTimeMillis()
                 launch {
-                    val file = File( com.pan.common.Common.filePath(this@ChangePicActivity)+ "/" + time + ".jpg")
+                    val file = File( com.slaoren.common.Common.filePath(this@ChangePicActivity)+ "/" + time + ".jpg")
                     val bos = BufferedOutputStream(FileOutputStream(file))
                     b?.compress(Bitmap.CompressFormat.JPEG, 100, bos)
                     bos.close()
