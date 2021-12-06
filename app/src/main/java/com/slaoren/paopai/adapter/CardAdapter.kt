@@ -19,9 +19,12 @@ class CardAdapter:RecyclerView.Adapter<CardViewHolder>(){
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
         val data = datas?.get(position)
         holder.tv?.text = data?.getCardText()
+        holder.ivSpace?.visibility = if(data?.isSelected==true) View.GONE else View.VISIBLE
         holder.itemView.setOnClickListener {
             data?.let {d->
-                childItemClick?.onClick(holder.itemView, d, position)
+                d.isSelected = !d.isSelected
+                notifyItemChanged(position)
+//                childItemClick?.onClick(holder.itemView, d, position)
             }
         }
     }

@@ -32,6 +32,8 @@ data class Card(
                 result.append(text)
                 return result.toString()
         }
+
+        var isSelected = false
 }
 
 val listCard = mutableListOf(

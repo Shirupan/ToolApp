@@ -66,15 +66,20 @@ class PaopaiActivity: FragmentActivity(), View.OnClickListener, CoroutineScope b
         mBinding.rvPlayer.adapter = p1Adapter.value
         p1Adapter.value.setOnItemclick(object :RvChildItemClick{
             override fun onClick(view: View, data: Any, position: Int) {
+                addMsg((data as Card).getCardText()+"\n")
                 play1.cards.removeAt(position)
                 p1Adapter.value.notifyDataSetChanged()
+                tvShowBottom()
             }
 
         })
     }
 
     fun tvShowBottom(){
-        mBinding.nsv.scrollTo(0, mBinding.tvResult.measuredHeight+200)
+        launch {
+            delay(50)
+            mBinding.nsv.smoothScrollBy(0, mBinding.tvResult.measuredHeight+200)
+        }
     }
 
     fun dealCard(){
@@ -124,5 +129,10 @@ class PaopaiActivity: FragmentActivity(), View.OnClickListener, CoroutineScope b
         p1Adapter.value.datas = play1.cards
         p1Adapter.value.notifyDataSetChanged()
 
+    }
+
+    fun addMsg(msg:String){
+        result.append(msg)
+        mBinding.tvResult.text = result.toString()
     }
 }
