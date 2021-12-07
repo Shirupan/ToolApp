@@ -4,10 +4,7 @@ import android.app.usage.UsageStatsManager
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Resources
-import android.graphics.Canvas
-import android.graphics.Movie
-import android.graphics.Paint
-import android.graphics.Rect
+import android.graphics.*
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
@@ -20,6 +17,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
 import com.slaoren.R
+import java.io.File
 import java.util.*
 
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -65,7 +63,6 @@ class GifWallpaperService : WallpaperService() {
 
         override fun onCreate(surfaceHolder: SurfaceHolder?) {
             super.onCreate(surfaceHolder)
-            Log.d("test", "onCreate")
             mHolder = surfaceHolder
             mClockPaint = Paint()
             mClockPaint.isAntiAlias = true

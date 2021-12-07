@@ -5,8 +5,11 @@
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+
+<!--    壁纸权限-->
+    <uses-permission android:name="android.permission.SET_WALLPAPER" />
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -18,7 +21,6 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name="com.slaoren.imgedit.PicMainActivity"></activity>
         <activity
             android:name="com.slaoren.test.TestActivity"
             android:screenOrientation="portrait" />
@@ -31,6 +33,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.slaoren.imgedit.PicMainActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.slaoren.imgedit.BlackAndWhitePicActivity"
             android:screenOrientation="portrait" />
@@ -53,7 +58,7 @@
             android:name=".paopai.activity.PaopaiActivity"
             android:screenOrientation="landscape" />
         <service
-            android:name="com.slaoren.wallpaper.VideoWallpaper"
+            android:name="com.slaoren.wallpaper.VideoWallPaperService"
             android:permission="android.permission.BIND_WALLPAPER">
 
             <!-- 为动态壁纸配置intent-filter -->

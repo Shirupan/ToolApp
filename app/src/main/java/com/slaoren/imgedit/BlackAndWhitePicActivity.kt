@@ -15,6 +15,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentActivity
 import com.slaoren.R
 import com.slaoren.common.customview.DialogDoubleBtn
+import com.slaoren.common.mvvm.BaseActivity
+import com.slaoren.common.mvvm.BaseViewModel
 import com.slaoren.databinding.ActivityBlackAndWhitePicBinding
 import com.slaoren.common.util.*
 import kotlinx.coroutines.CoroutineScope
@@ -27,27 +29,26 @@ import java.io.*
  * 图片变黑白
  */
 
-class BlackAndWhitePicActivity: FragmentActivity(), View.OnClickListener, CoroutineScope by MainScope(){
+class BlackAndWhitePicActivity: BaseActivity<ActivityBlackAndWhitePicBinding, BaseViewModel>(), View.OnClickListener, CoroutineScope by MainScope(){
     var code = 0
-    lateinit var mBinding:ActivityBlackAndWhitePicBinding
+    var resultBitmap:Bitmap? = null
+    override fun getLayoutId(): Int = R.layout.activity_black_and_white_pic
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mBinding = DataBindingUtil.setContentView(
-            this,
-            R.layout.activity_black_and_white_pic
-        )
-        mBinding.lifecycleOwner = this
-
         mBinding.ivPic.visibility = View.GONE
         mBinding.ivPicBg.setOnClickListener(this)
         mBinding.btnFinsh.setOnClickListener(this)
+        mBinding.title.setLeftImg(R.drawable.ic_arrow_back_white_24dp){
+            finish()
+        }
 
         val cm = ColorMatrix()
         cm.setSaturation(0f) // 设置饱和度:0为纯黑白，饱和度为0；1为饱和度为100，即原图；
         val mGrayColorFilter = ColorMatrixColorFilter(cm)
         mBinding.ivPic.colorFilter = mGrayColorFilter
+
 
     }
 
@@ -87,8 +88,8 @@ class BlackAndWhitePicActivity: FragmentActivity(), View.OnClickListener, Corout
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             code -> if (resultCode == RESULT_OK) {
-                val bitmap = data?.data?.toBitmapBySizeCompress(this)
-                setBitmap2Iv(bitmap)
+                resultBitmap = data?.data?.toBitmapBySizeCompress(this)
+                setBitmap2Iv(resultBitmap)
 
 //                mBinding.ivPic.visibility=View.VISIBLE
 //                mBinding.ivPic.setImageBitmap(bitmap)
@@ -129,6 +130,12 @@ class BlackAndWhitePicActivity: FragmentActivity(), View.OnClickListener, Corout
             SLog.d("test", "iv w:"+iv.width+", h:"+iv.height)
             iv.setImageBitmap(bitmap)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        resultBitmap?.recycle()
+        resultBitmap = null
     }
 
 }

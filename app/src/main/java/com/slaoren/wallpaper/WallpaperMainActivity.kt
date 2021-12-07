@@ -24,7 +24,7 @@ class WallpaperMainActivity : AppCompatActivity(), View.OnClickListener {
             R.id.to1 -> {
                 val intent = Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER)
                 intent.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
-                        ComponentName(this, VideoWallpaper::class.java))
+                        ComponentName(this, VideoWallPaperService::class.java))
                 startActivity(intent)
             }
             R.id.to2 -> {

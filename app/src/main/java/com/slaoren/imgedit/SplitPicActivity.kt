@@ -29,6 +29,7 @@ class SplitPicActivity: FragmentActivity(), View.OnClickListener, CoroutineScope
     var x = 3//分割后的列数
     var y = 3//分割后的行数
     var code = 0
+    var resultBitmap:Bitmap? = null
     lateinit var mBinding: ActivityCutPicBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -173,8 +174,8 @@ class SplitPicActivity: FragmentActivity(), View.OnClickListener, CoroutineScope
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             code -> if (resultCode == RESULT_OK) {
-                val bitmap = data?.data?.toBitmapBySizeCompress(this)
-                setBitmap2Iv(bitmap)
+                resultBitmap = data?.data?.toBitmapBySizeCompress(this)
+                setBitmap2Iv(resultBitmap)
             }
         }
     }
@@ -210,5 +211,11 @@ class SplitPicActivity: FragmentActivity(), View.OnClickListener, CoroutineScope
             SLog.d("test", "iv w:"+iv.width+", h:"+iv.height)
             iv.setImageBitmap(bitmap)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        resultBitmap?.recycle()
+        resultBitmap = null
     }
 }

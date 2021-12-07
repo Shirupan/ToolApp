@@ -156,4 +156,10 @@ class ChangePicActivity: FragmentActivity(), View.OnClickListener, CoroutineScop
             }
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        rawBitmap?.recycle()
+        rawBitmap = null
+    }
 }

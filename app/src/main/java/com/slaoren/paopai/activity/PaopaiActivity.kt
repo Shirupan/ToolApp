@@ -7,6 +7,9 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.slaoren.paopai.data.Card
 import com.slaoren.R
+import com.slaoren.common.mvvm.BaseActivity
+import com.slaoren.common.mvvm.BaseViewModel
+import com.slaoren.databinding.ActivityMirroringPicBinding
 import com.slaoren.databinding.ActivityPaopaiBinding
 import com.slaoren.paopai.adapter.CardAdapter
 import com.slaoren.paopai.adapter.RvChildItemClick
@@ -20,7 +23,7 @@ import kotlinx.coroutines.*
  * 2021.11.29
  */
 
-class PaopaiActivity: FragmentActivity(), View.OnClickListener, CoroutineScope by MainScope(){
+class PaopaiActivity: BaseActivity<ActivityPaopaiBinding, BaseViewModel>(), View.OnClickListener, CoroutineScope by MainScope(){
     var result = StringBuilder()//记录结果
     var totleCard = mutableListOf<Card>()
     var play1 = Player()
@@ -33,17 +36,12 @@ class PaopaiActivity: FragmentActivity(), View.OnClickListener, CoroutineScope b
     var STATE_PLAYING = 2
     var state = STATE_STOP
 
-    lateinit var mBinding:ActivityPaopaiBinding
+    override fun getLayoutId(): Int = R.layout.activity_paopai
     var p1Adapter = lazy { CardAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mBinding = DataBindingUtil.setContentView(
-            this,
-            R.layout.activity_paopai
-        )
-        mBinding.lifecycleOwner = this
 
         mBinding.btnStart.setOnClickListener(this)
 

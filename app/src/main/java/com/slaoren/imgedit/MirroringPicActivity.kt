@@ -29,6 +29,8 @@ import androidx.core.view.drawToBitmap
 
 class MirroringPicActivity: FragmentActivity(), View.OnClickListener, CoroutineScope by MainScope() {
     var code = 0
+    var resultBitmap:Bitmap? = null
+
     lateinit var mBinding: ActivityMirroringPicBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -102,8 +104,8 @@ class MirroringPicActivity: FragmentActivity(), View.OnClickListener, CoroutineS
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             code -> if (resultCode == RESULT_OK) {
-                val bitmap = data?.data?.toBitmapBySizeCompress(this)
-                setBitmap2Iv(bitmap)
+                resultBitmap = data?.data?.toBitmapBySizeCompress(this)
+                setBitmap2Iv(resultBitmap)
             }
         }
     }
@@ -141,5 +143,9 @@ class MirroringPicActivity: FragmentActivity(), View.OnClickListener, CoroutineS
         }
     }
 
-
+    override fun onDestroy() {
+        super.onDestroy()
+        resultBitmap?.recycle()
+        resultBitmap = null
+    }
 }
