@@ -33,6 +33,9 @@ data class Card(
                 return result.toString()
         }
 
+        fun getExtNum():Int{
+                return if(num>2) num else num+14
+        }
         var isSelected = false
 }
 

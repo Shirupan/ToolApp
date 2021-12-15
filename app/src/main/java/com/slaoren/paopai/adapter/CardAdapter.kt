@@ -7,23 +7,30 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.slaoren.R
+import com.slaoren.common.util.SLog
 import com.slaoren.paopai.data.Card
 
 class CardAdapter:RecyclerView.Adapter<CardViewHolder>(){
     var datas:MutableList<Card>?=null
     var childItemClick:RvChildItemClick?=null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
-        return CardViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_card,null))
+        return CardViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_card, parent,false))
     }
 
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
         val data = datas?.get(position)
         holder.tv?.text = data?.getCardText()
-        holder.ivSpace?.visibility = if(data?.isSelected==true) View.GONE else View.VISIBLE
+        SLog.d("isSelected:"+position+","+data?.isSelected)
+        holder.ivSpace?.visibility = if(data?.isSelected==false) View.GONE else View.VISIBLE
         holder.itemView.setOnClickListener {
+            SLog.d("position:"+position)
+            SLog.d("isSelected:"+data.toString())
             data?.let {d->
                 d.isSelected = !d.isSelected
-                notifyItemChanged(position)
+                SLog.d("isSelected:"+d.isSelected)
+                holder.ivSpace?.visibility = if(d.isSelected) View.VISIBLE else View.GONE
+
+//                notifyItemChanged(position)
 //                childItemClick?.onClick(holder.itemView, d, position)
             }
         }

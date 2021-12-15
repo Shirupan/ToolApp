@@ -26,4 +26,16 @@
         <item name="android:textSize">@dimen/sp_15</item>
     </style>
 
+
+    <style name="Stitle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/color_33</item>
+        <item name="title_visible">@dimen/dp_5</item>
+        <item name="title_color">@color/white</item>
+        <item name="img_left_src">@drawable/ic_arrow_back_white_24dp</item>
+        <item name="img_left_visible">true</item>
+        <item name="text_size">@dimen/sp_20</item>
+    </style>
+
 </resources>

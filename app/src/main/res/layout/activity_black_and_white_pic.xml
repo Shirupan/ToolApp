@@ -10,16 +10,11 @@
 
         <com.slaoren.common.customview.STitleBar
             android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/color_33"
+            style="@style/Stitle"
             app:layout_constraintTop_toTopOf="parent"
-            app:title_text="彩照变黑白"
-            app:title_visible="true"
-            app:title_color="@color/white"
-            app:img_left_src="@drawable/ic_arrow_back_white_24dp"
-            app:img_left_visible="true"
-            app:text_size="20sp"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
 
         <ImageView
             android:id="@+id/ivPicBg"

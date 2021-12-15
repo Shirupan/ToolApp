@@ -45,4 +45,5 @@ dependencies {
     implementation project(':lib_screen_adapter')
     implementation project(':lib_common')
 
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.50'
 }

@@ -40,6 +40,9 @@ class BlackAndWhitePicActivity: BaseActivity<ActivityBlackAndWhitePicBinding, Ba
         mBinding.ivPic.visibility = View.GONE
         mBinding.ivPicBg.setOnClickListener(this)
         mBinding.btnFinsh.setOnClickListener(this)
+
+        mBinding.title.setTitle("彩照变黑白")
+
         mBinding.title.setLeftImg(R.drawable.ic_arrow_back_white_24dp){
             finish()
         }
@@ -48,8 +51,6 @@ class BlackAndWhitePicActivity: BaseActivity<ActivityBlackAndWhitePicBinding, Ba
         cm.setSaturation(0f) // 设置饱和度:0为纯黑白，饱和度为0；1为饱和度为100，即原图；
         val mGrayColorFilter = ColorMatrixColorFilter(cm)
         mBinding.ivPic.colorFilter = mGrayColorFilter
-
-
     }
 
     override fun onClick(v: View?) {
