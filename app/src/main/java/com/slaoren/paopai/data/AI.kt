@@ -154,31 +154,34 @@ open class AI(var name:String):IAIPaoPai{
         return 0
     }
 
-    //TODO 去掉合集中的元素
-    override fun chupai(value:List<Card>):List<Card>?{
-        SLog.d("chupai:"+value.size)
+    override fun aiChupai(value:List<Card>?):List<Card>?{
+        SLog.d("chupai:"+value?.size)
 
-        val card0 = value[0]
-        val result = when(value.size){
-            1->checkDanzhang(card0)
-            2->checkLiangzhang(card0)
-            3->checkSanzhang(card0)
-            4->{
-                if (card0.num==value[1].num){
-                    checkSizhang(card0)
-                }else{
-                    val startCard = checkBi(card0)
-                    return if (startCard!=0){
-                        findBi(startCard)
+        if (!value.isNullOrEmpty()){
+            val card0 = value[0]
+            val result = when(value.size){
+                1->checkDanzhang(card0)
+                2->checkLiangzhang(card0)
+                3->checkSanzhang(card0)
+                4->{
+                    if (card0.num==value[1].num){
+                        checkSizhang(card0)
                     }else{
-                        null
+                        val startCard = checkBi(card0)
+                        return if (startCard!=0){
+                            findBi(startCard)
+                        }else{
+                            null
+                        }
                     }
                 }
+                else->0
             }
-            else->0
+            SLog.d("chupai result:"+result)
+            return findCards(result, value.size)
+        }else{
+            return firstTimeChuPai()
         }
-        SLog.d("chupai result:"+result)
-        return findCards(result, value.size)
     }
 
     override fun findCards(cardNum:Int, cardSize:Int):List<Card>?{
@@ -189,12 +192,24 @@ open class AI(var name:String):IAIPaoPai{
 
         val size = result.size-cardSize
         return if(size>=0){
+            //去掉合集中的元素
+            numMap[cardNum] = size
             result.subList(0, cardSize).onEach {
                 cards.remove(it)
             }
         }else {
             null
         }
+    }
+
+    override fun firstTimeChuPai(): List<Card>? {
+        numMap.forEach{
+            SLog.d("test", "it.value:"+it.value)
+            if (it.value!=0){
+                return findCards(it.key, it.value)
+            }
+        }
+        return null
     }
 
     override fun findBi(cardSmallestNum: Int): List<Card>? {

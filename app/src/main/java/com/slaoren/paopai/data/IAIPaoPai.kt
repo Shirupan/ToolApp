@@ -24,9 +24,11 @@ interface IAIPaoPai {
 
     fun checkBi(value:Card):Int
 
-    fun chupai(value:List<Card>):List<Card>?
+    fun aiChupai(value:List<Card>?):List<Card>?
 
     fun findCards(cardNum:Int, times:Int):List<Card>?
+
+    fun firstTimeChuPai():List<Card>?
 
     fun findBi(cardSmallestNum:Int):List<Card>?
 }

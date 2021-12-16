@@ -3,22 +3,13 @@ package com.slaoren.paopai.activity
 
 import android.os.Bundle
 import android.view.View
-import android.widget.AdapterView
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.slaoren.paopai.data.Card
 import com.slaoren.R
 import com.slaoren.common.mvvm.BaseActivity
-import com.slaoren.common.mvvm.BaseViewModel
-import com.slaoren.common.util.SLog
-import com.slaoren.databinding.ActivityMirroringPicBinding
 import com.slaoren.databinding.ActivityPaopaiBinding
-import com.slaoren.paopai.adapter.CardAdapter
 import com.slaoren.paopai.adapter.CardQuickAdapter
-import com.slaoren.paopai.adapter.RvChildItemClick
 import com.slaoren.paopai.data.AI
 import com.slaoren.paopai.data.Player
 import com.slaoren.paopai.data.listPaopai
@@ -38,13 +29,15 @@ class PaopaiActivity: BaseActivity<ActivityPaopaiBinding, PaopaiVM>(), View.OnCl
     var play2 = AI("p2")
     var play3 = AI("p3")
     var play4 = AI("p4")
+    var currentPlayer:AI? = null
+
 
     var STATE_STOP = 0
     var STATE_PAUSE = 1
     var STATE_PLAYING = 2
     var state = STATE_STOP
 
-    lateinit var current: List<Card>
+    var current: List<Card>?=null
 
     override fun getLayoutId(): Int = R.layout.activity_paopai
     var p1Adapter = lazy { CardQuickAdapter() }
@@ -55,6 +48,7 @@ class PaopaiActivity: BaseActivity<ActivityPaopaiBinding, PaopaiVM>(), View.OnCl
 
         mBinding.btnStart.setOnClickListener(this)
         mBinding.btnChupai.setOnClickListener(this)
+        mBinding.btnBuYao.setOnClickListener(this)
 
         initPlayerRv()
     }
@@ -68,6 +62,9 @@ class PaopaiActivity: BaseActivity<ActivityPaopaiBinding, PaopaiVM>(), View.OnCl
             }
             mBinding.btnChupai -> {
                 chupai()
+            }
+            mBinding.btnBuYao -> {
+                buyao()
             }
 
         }
@@ -96,8 +93,8 @@ class PaopaiActivity: BaseActivity<ActivityPaopaiBinding, PaopaiVM>(), View.OnCl
 //        })
     }
 
-    fun aiChupai(ai: AI, list:List<Card>):List<Card>?{
-        val result = ai.chupai(list)
+    fun aiChupai(ai: AI, list:List<Card>?):List<Card>?{
+        val result = ai.aiChupai(list)
         addMsg(ai.name+":")
 
         if (result==null){
@@ -115,6 +112,7 @@ class PaopaiActivity: BaseActivity<ActivityPaopaiBinding, PaopaiVM>(), View.OnCl
 
     fun chupai(){
         var indexs = mutableListOf<Card>()
+        addMsg(play1.name+":")
         p1Adapter.value.data.forEachIndexed { index, card ->
             if (card.isSelected){
                 indexs.add(card)
@@ -125,10 +123,13 @@ class PaopaiActivity: BaseActivity<ActivityPaopaiBinding, PaopaiVM>(), View.OnCl
         tvShowBottom()
 
         indexs.reverse()
-        indexs.forEach {
-            play1.cards.remove(it)
-        }
-        p1Adapter.value.notifyDataSetChanged()
+
+//        if(play1.checkChupai(indexs, current)){
+            indexs.forEach {
+                play1.cards.remove(it)
+            }
+            p1Adapter.value.notifyDataSetChanged()
+//        }
 
         mBinding.btnChupai.isEnabled = false
 
@@ -138,6 +139,13 @@ class PaopaiActivity: BaseActivity<ActivityPaopaiBinding, PaopaiVM>(), View.OnCl
         current = aiChupai(play4, current)?:current
 
         mBinding.btnChupai.isEnabled = true
+    }
+
+    fun buyao(){
+        current = null
+        current = aiChupai(play2, current)?:current
+        current = aiChupai(play3, current)?:current
+        current = aiChupai(play4, current)?:current
     }
 
     fun tvShowBottom(){
@@ -203,4 +211,6 @@ class PaopaiActivity: BaseActivity<ActivityPaopaiBinding, PaopaiVM>(), View.OnCl
         result.append(msg)
         mBinding.tvResult.text = result.toString()
     }
+
+
 }
