@@ -34,15 +34,17 @@ import kotlinx.coroutines.*
 class PaopaiActivity: BaseActivity<ActivityPaopaiBinding, PaopaiVM>(), View.OnClickListener, CoroutineScope by MainScope(){
     var result = StringBuilder()//记录结果
     var totleCard = mutableListOf<Card>()
-    var play1 = Player()
-    var play2 = AI()
-    var play3 = AI()
-    var play4 = AI()
+    var play1 = Player("p1")
+    var play2 = AI("p2")
+    var play3 = AI("p3")
+    var play4 = AI("p4")
 
     var STATE_STOP = 0
     var STATE_PAUSE = 1
     var STATE_PLAYING = 2
     var state = STATE_STOP
+
+    lateinit var current: List<Card>
 
     override fun getLayoutId(): Int = R.layout.activity_paopai
     var p1Adapter = lazy { CardQuickAdapter() }
@@ -94,20 +96,25 @@ class PaopaiActivity: BaseActivity<ActivityPaopaiBinding, PaopaiVM>(), View.OnCl
 //        })
     }
 
-    fun aiChupai(ai: AI, list:MutableList<Card>){
+    fun aiChupai(ai: AI, list:List<Card>):List<Card>?{
         val result = ai.chupai(list)
+        addMsg(ai.name+":")
+
         if (result==null){
             addMsg("不要\n")
+            return list
         } else{
             result.forEach {
                 addMsg(it.getCardText())
-                addMsg("\n")
+                addMsg(" ")
             }
+            addMsg("\n")
         }
+        return result
     }
 
     fun chupai(){
-        val indexs = mutableListOf<Card>()
+        var indexs = mutableListOf<Card>()
         p1Adapter.value.data.forEachIndexed { index, card ->
             if (card.isSelected){
                 indexs.add(card)
@@ -125,7 +132,10 @@ class PaopaiActivity: BaseActivity<ActivityPaopaiBinding, PaopaiVM>(), View.OnCl
 
         mBinding.btnChupai.isEnabled = false
 
-        aiChupai(play2, indexs)
+        current = indexs
+        current = aiChupai(play2, current)?:current
+        current = aiChupai(play3, current)?:current
+        current = aiChupai(play4, current)?:current
 
         mBinding.btnChupai.isEnabled = true
     }

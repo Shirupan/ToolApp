@@ -2,7 +2,7 @@ package com.slaoren.paopai.data
 
 import com.slaoren.common.util.SLog
 
-open class AI:IAIPaoPai{
+open class AI(var name:String):IAIPaoPai{
 
     var cards= mutableListOf<Card>()
     var numMap= mutableMapOf<Int, Int>()
@@ -157,9 +157,6 @@ open class AI:IAIPaoPai{
     //TODO 去掉合集中的元素
     override fun chupai(value:List<Card>):List<Card>?{
         SLog.d("chupai:"+value.size)
-//        value.forEach {
-//            listCard.remove(it)
-//        }
 
         val card0 = value[0]
         val result = when(value.size){
@@ -192,7 +189,9 @@ open class AI:IAIPaoPai{
 
         val size = result.size-cardSize
         return if(size>=0){
-            result.subList(0, cardSize)
+            result.subList(0, cardSize).onEach {
+                cards.remove(it)
+            }
         }else {
             null
         }
