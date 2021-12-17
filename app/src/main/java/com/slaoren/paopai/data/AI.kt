@@ -204,8 +204,8 @@ open class AI(var name:String):IAIPaoPai{
 
     override fun firstTimeChuPai(): List<Card>? {
         numMap.forEach{
-            SLog.d("test", "it.value:"+it.value)
             if (it.value!=0){
+                SLog.d("firstTimeChuPai it.value:"+it.value)
                 return findCards(it.key, it.value)
             }
         }

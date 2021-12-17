@@ -29,6 +29,7 @@ class PaopaiActivity: BaseActivity<ActivityPaopaiBinding, PaopaiVM>(), View.OnCl
     var play2 = AI("p2")
     var play3 = AI("p3")
     var play4 = AI("p4")
+    var lastPlayer:AI? = null
     var currentPlayer:AI? = null
 
 
@@ -37,7 +38,7 @@ class PaopaiActivity: BaseActivity<ActivityPaopaiBinding, PaopaiVM>(), View.OnCl
     var STATE_PLAYING = 2
     var state = STATE_STOP
 
-    var current: List<Card>?=null
+    var currentCards: List<Card>?=null
 
     override fun getLayoutId(): Int = R.layout.activity_paopai
     var p1Adapter = lazy { CardQuickAdapter() }
@@ -133,19 +134,58 @@ class PaopaiActivity: BaseActivity<ActivityPaopaiBinding, PaopaiVM>(), View.OnCl
 
         mBinding.btnChupai.isEnabled = false
 
-        current = indexs
-        current = aiChupai(play2, current)?:current
-        current = aiChupai(play3, current)?:current
-        current = aiChupai(play4, current)?:current
+        currentCards = indexs
+        currentCards = aiChupai(play2, currentCards)?:currentCards
+        currentCards = aiChupai(play3, currentCards)?:currentCards
+        currentCards = aiChupai(play4, currentCards)?:currentCards
 
         mBinding.btnChupai.isEnabled = true
     }
 
     fun buyao(){
-        current = null
-        current = aiChupai(play2, current)?:current
-        current = aiChupai(play3, current)?:current
-        current = aiChupai(play4, current)?:current
+        currentPlayer = play2
+        aiChuPai()
+    }
+
+    fun aiChuPai(){
+        if (currentPlayer==lastPlayer) {
+            if (currentPlayer?.getCardSize()==0){
+                addMsg(currentPlayer?.name+"赢了")
+                state = STATE_STOP
+                return
+            }
+            currentCards = null
+
+        }
+        var result:List<Card>? = null
+        when(currentPlayer){
+            play2-> {
+                result = aiChupai(play2, currentCards)?:currentCards
+                if (result != null){
+                    lastPlayer = currentPlayer
+                }
+                currentPlayer = play3
+                aiChuPai()
+            }
+            play3-> {
+                result = aiChupai(play3, currentCards)?:currentCards
+                if (result != null){
+                    lastPlayer = currentPlayer
+                }
+                currentPlayer = play4
+                aiChuPai()
+            }
+            play4-> {
+                result = aiChupai(play4, currentCards)?:currentCards
+                if (result != null){
+                    lastPlayer = currentPlayer
+                }
+
+                currentPlayer = play2
+                aiChuPai()
+            }
+        }
+
     }
 
     fun tvShowBottom(){
