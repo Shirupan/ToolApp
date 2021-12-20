@@ -3,11 +3,13 @@ package com.slaoren.paopai.activity
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.slaoren.paopai.data.Card
 import com.slaoren.R
 import com.slaoren.common.mvvm.BaseActivity
+import com.slaoren.common.util.SLog
 import com.slaoren.databinding.ActivityPaopaiBinding
 import com.slaoren.paopai.adapter.CardQuickAdapter
 import com.slaoren.paopai.data.AI
@@ -60,12 +62,21 @@ class PaopaiActivity: BaseActivity<ActivityPaopaiBinding, PaopaiVM>(), View.OnCl
                 state = STATE_PLAYING
                 dealCard()
                 v.visibility = View.GONE
+                lastPlayer = play1
+                currentPlayer = play1
             }
             mBinding.btnChupai -> {
+                if (currentPlayer!=play1){
+                    Toast.makeText(this, "还没轮到你", Toast.LENGTH_SHORT).show()
+                    return
+                }
                 chupai()
             }
             mBinding.btnBuYao -> {
-                buyao()
+                currentPlayer = play2
+                addMsg(play1.name+":")
+                addMsg("不要\n")
+                aiChuPai()
             }
 
         }
@@ -94,13 +105,12 @@ class PaopaiActivity: BaseActivity<ActivityPaopaiBinding, PaopaiVM>(), View.OnCl
 //        })
     }
 
-    fun aiChupai(ai: AI, list:List<Card>?):List<Card>?{
+    fun checkAiChupai(ai: AI, list:List<Card>?):List<Card>?{
         val result = ai.aiChupai(list)
         addMsg(ai.name+":")
 
         if (result==null){
             addMsg("不要\n")
-            return list
         } else{
             result.forEach {
                 addMsg(it.getCardText())
@@ -125,29 +135,26 @@ class PaopaiActivity: BaseActivity<ActivityPaopaiBinding, PaopaiVM>(), View.OnCl
 
         indexs.reverse()
 
-//        if(play1.checkChupai(indexs, current)){
+        if(lastPlayer==play1 && play1.checkChupai(indexs, null)
+                ||play1.checkChupai(indexs, currentCards)){
             indexs.forEach {
                 play1.cards.remove(it)
             }
             p1Adapter.value.notifyDataSetChanged()
-//        }
+        }else{
+            Toast.makeText(this, "不能这么出", Toast.LENGTH_SHORT).show()
+            return
+        }
 
-        mBinding.btnChupai.isEnabled = false
-
-        currentCards = indexs
-        currentCards = aiChupai(play2, currentCards)?:currentCards
-        currentCards = aiChupai(play3, currentCards)?:currentCards
-        currentCards = aiChupai(play4, currentCards)?:currentCards
-
-        mBinding.btnChupai.isEnabled = true
-    }
-
-    fun buyao(){
+        lastPlayer = play1
         currentPlayer = play2
+        currentCards = indexs
+
         aiChuPai()
     }
 
     fun aiChuPai(){
+        SLog.d("currentPlayer:"+currentPlayer?.name+","+lastPlayer?.name)
         if (currentPlayer==lastPlayer) {
             if (currentPlayer?.getCardSize()==0){
                 addMsg(currentPlayer?.name+"赢了")
@@ -155,34 +162,40 @@ class PaopaiActivity: BaseActivity<ActivityPaopaiBinding, PaopaiVM>(), View.OnCl
                 return
             }
             currentCards = null
-
         }
         var result:List<Card>? = null
         when(currentPlayer){
             play2-> {
-                result = aiChupai(play2, currentCards)?:currentCards
+                result = checkAiChupai(play2, currentCards)
+                SLog.d("result:"+result.toString())
                 if (result != null){
+                    currentCards = result
                     lastPlayer = currentPlayer
                 }
                 currentPlayer = play3
                 aiChuPai()
             }
             play3-> {
-                result = aiChupai(play3, currentCards)?:currentCards
+                result = checkAiChupai(play3, currentCards)
+                SLog.d("result:"+result.toString())
+
                 if (result != null){
+                    currentCards = result
                     lastPlayer = currentPlayer
                 }
                 currentPlayer = play4
                 aiChuPai()
             }
             play4-> {
-                result = aiChupai(play4, currentCards)?:currentCards
+                result = checkAiChupai(play4, currentCards)
+                SLog.d("result:"+result.toString())
+
                 if (result != null){
+                    currentCards = result
                     lastPlayer = currentPlayer
                 }
 
-                currentPlayer = play2
-                aiChuPai()
+                currentPlayer = play1
             }
         }
 
