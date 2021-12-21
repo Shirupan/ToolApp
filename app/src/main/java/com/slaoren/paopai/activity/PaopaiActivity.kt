@@ -60,8 +60,8 @@ class PaopaiActivity: BaseActivity<ActivityPaopaiBinding, PaopaiVM>(), View.OnCl
         when(v){
             mBinding.btnStart -> {
                 state = STATE_PLAYING
+                changeUIState()
                 dealCard()
-                v.visibility = View.GONE
                 lastPlayer = play1
                 currentPlayer = play1
             }
@@ -73,6 +73,15 @@ class PaopaiActivity: BaseActivity<ActivityPaopaiBinding, PaopaiVM>(), View.OnCl
                 chupai()
             }
             mBinding.btnBuYao -> {
+                SLog.d("play:"+currentPlayer?.name+", "+lastPlayer?.name)
+                if (currentPlayer!=play1){
+                    Toast.makeText(this, "还没轮到你", Toast.LENGTH_SHORT).show()
+                    return
+                }
+                if (lastPlayer==play1){
+                    Toast.makeText(this, "现在轮到你出牌了", Toast.LENGTH_SHORT).show()
+                    return
+                }
                 currentPlayer = play2
                 addMsg(play1.name+":")
                 addMsg("不要\n")
@@ -105,6 +114,20 @@ class PaopaiActivity: BaseActivity<ActivityPaopaiBinding, PaopaiVM>(), View.OnCl
 //        })
     }
 
+    fun changeUIState(){
+        when(state){
+            STATE_PLAYING->{
+                mBinding.btnStart.visibility = View.GONE
+            }
+            STATE_PAUSE->{
+                mBinding.btnStart.visibility = View.GONE
+            }
+            STATE_STOP->{
+                mBinding.btnStart.visibility = View.VISIBLE
+            }
+        }
+    }
+
     fun checkAiChupai(ai: AI, list:List<Card>?):List<Card>?{
         val result = ai.aiChupai(list)
         addMsg(ai.name+":")
@@ -122,6 +145,10 @@ class PaopaiActivity: BaseActivity<ActivityPaopaiBinding, PaopaiVM>(), View.OnCl
     }
 
     fun chupai(){
+        if (state!=STATE_PLAYING){
+            Toast.makeText(this, "游戏未开始", Toast.LENGTH_SHORT).show()
+            return
+        }
         var indexs = mutableListOf<Card>()
         addMsg(play1.name+":")
         p1Adapter.value.data.forEachIndexed { index, card ->
@@ -146,6 +173,10 @@ class PaopaiActivity: BaseActivity<ActivityPaopaiBinding, PaopaiVM>(), View.OnCl
             return
         }
 
+        if (win()){
+            return
+        }
+
         lastPlayer = play1
         currentPlayer = play2
         currentCards = indexs
@@ -153,52 +184,65 @@ class PaopaiActivity: BaseActivity<ActivityPaopaiBinding, PaopaiVM>(), View.OnCl
         aiChuPai()
     }
 
+
     fun aiChuPai(){
         SLog.d("currentPlayer:"+currentPlayer?.name+","+lastPlayer?.name)
-        if (currentPlayer==lastPlayer) {
-            if (currentPlayer?.getCardSize()==0){
-                addMsg(currentPlayer?.name+"赢了")
-                state = STATE_STOP
-                return
-            }
-            currentCards = null
-        }
         var result:List<Card>? = null
+        if (currentPlayer==lastPlayer){
+            currentCards = null//没有其他人出牌，那就首次发牌
+        }
         when(currentPlayer){
             play2-> {
                 result = checkAiChupai(play2, currentCards)
-                SLog.d("result:"+result.toString())
                 if (result != null){
                     currentCards = result
                     lastPlayer = currentPlayer
+                    if (win()){
+                        return
+                    }
                 }
                 currentPlayer = play3
                 aiChuPai()
             }
             play3-> {
                 result = checkAiChupai(play3, currentCards)
-                SLog.d("result:"+result.toString())
 
                 if (result != null){
                     currentCards = result
                     lastPlayer = currentPlayer
+                    if (win()){
+                        return
+                    }
                 }
                 currentPlayer = play4
                 aiChuPai()
             }
             play4-> {
                 result = checkAiChupai(play4, currentCards)
-                SLog.d("result:"+result.toString())
 
                 if (result != null){
                     currentCards = result
                     lastPlayer = currentPlayer
+                    if (win()){
+                        return
+                    }
                 }
 
                 currentPlayer = play1
             }
         }
 
+    }
+
+    fun win():Boolean{
+        if (currentPlayer?.getCardSize()==0){
+            addMsg(currentPlayer?.name+"赢了")
+            state = STATE_STOP
+            changeUIState()
+            currentCards = null
+            return true
+        }
+        return false
     }
 
     fun tvShowBottom(){
