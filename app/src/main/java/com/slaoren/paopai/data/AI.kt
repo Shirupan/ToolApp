@@ -226,13 +226,18 @@ open class AI(var name:String):IAIPaoPai{
     }
 
     override fun countScore() {
-        val num = listCard.size
-        score+=when (num) {
+        val num = cards.size
+        val r = when (num) {
             in 0..7 -> num
             in 8..9 -> num*2
             in 10..12 -> num*3
             13->52
             else->0
         }
+        score+=r
+    }
+
+    fun getExtScoreStr():String{
+        return "$name:$score"
     }
 }

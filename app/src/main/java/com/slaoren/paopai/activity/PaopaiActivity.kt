@@ -48,12 +48,19 @@ class PaopaiActivity: BaseActivity<ActivityPaopaiBinding, PaopaiVM>(), View.OnCl
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
         mBinding.btnStart.setOnClickListener(this)
         mBinding.btnChupai.setOnClickListener(this)
         mBinding.btnBuYao.setOnClickListener(this)
 
         initPlayerRv()
+
+    }
+
+    fun setScoreTv(){
+        mBinding.tvScoreP1.text = play1.getExtScoreStr()
+        mBinding.tvScoreP2.text = play2.getExtScoreStr()
+        mBinding.tvScoreP3.text = play3.getExtScoreStr()
+        mBinding.tvScoreP4.text = play4.getExtScoreStr()
     }
 
     override fun onClick(v: View?) {
@@ -62,8 +69,10 @@ class PaopaiActivity: BaseActivity<ActivityPaopaiBinding, PaopaiVM>(), View.OnCl
                 state = STATE_PLAYING
                 changeUIState()
                 dealCard()
-                lastPlayer = play1
-                currentPlayer = play1
+                setScoreTv()
+                if (lastPlayer==null)lastPlayer = play1
+                if (currentPlayer==null)currentPlayer = play1
+                if (currentPlayer!=play1)aiChuPai()
             }
             mBinding.btnChupai -> {
                 if (state!=STATE_PLAYING){
@@ -247,7 +256,9 @@ class PaopaiActivity: BaseActivity<ActivityPaopaiBinding, PaopaiVM>(), View.OnCl
 
     fun win():Boolean{
         if (currentPlayer?.getCardSize()==0){
-            addMsg(currentPlayer?.name+"赢了")
+            addMsg(currentPlayer?.name?:"")
+            addMsg("赢了")
+            addMsg("\n")
             state = STATE_STOP
             changeUIState()
             currentCards = null
@@ -255,6 +266,7 @@ class PaopaiActivity: BaseActivity<ActivityPaopaiBinding, PaopaiVM>(), View.OnCl
             play2.countScore()
             play3.countScore()
             play4.countScore()
+            setScoreTv()
             return true
         }
         return false

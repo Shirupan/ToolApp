@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:tools="http://schemas.android.com/tools">
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/f2"
         xmlns:app="http://schemas.android.com/apk/res-auto">
+
         <androidx.core.widget.NestedScrollView
             android:id="@+id/nsv"
             android:layout_width="0dp"
@@ -62,7 +63,6 @@
             app:layout_constraintEnd_toStartOf="@id/btnBuYao"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
-
         <Button
             android:id="@+id/btnBuYao"
             android:layout_width="wrap_content"
@@ -74,5 +74,46 @@
             android:textSize="@dimen/sp_20"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <TextView
+            android:id="@+id/tvScoreP1"
+            android:layout_width="@dimen/dp_50"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp_10"
+            tools:text="p1:0"
+            android:textColor="@color/color_33"
+            android:textSize="@dimen/sp_15"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
+            android:id="@+id/tvScoreP2"
+            android:layout_width="@dimen/dp_50"
+            android:layout_height="wrap_content"
+            tools:text="p1:23"
+            android:textColor="@color/color_33"
+            android:textSize="@dimen/sp_15"
+            app:layout_constraintTop_toBottomOf="@id/tvScoreP1"
+            app:layout_constraintStart_toStartOf="@id/tvScoreP1"/>
+
+        <TextView
+            android:id="@+id/tvScoreP3"
+            android:layout_width="@dimen/dp_50"
+            android:layout_height="wrap_content"
+            tools:text="p1:3"
+            android:textColor="@color/color_33"
+            android:textSize="@dimen/sp_15"
+            app:layout_constraintTop_toBottomOf="@id/tvScoreP2"
+            app:layout_constraintStart_toStartOf="@id/tvScoreP1"/>
+
+        <TextView
+            android:id="@+id/tvScoreP4"
+            android:layout_width="@dimen/dp_50"
+            android:layout_height="wrap_content"
+            tools:text="p1:23"
+            android:textColor="@color/color_33"
+            android:textSize="@dimen/sp_15"
+            app:layout_constraintTop_toBottomOf="@id/tvScoreP3"
+            app:layout_constraintStart_toStartOf="@id/tvScoreP1"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
