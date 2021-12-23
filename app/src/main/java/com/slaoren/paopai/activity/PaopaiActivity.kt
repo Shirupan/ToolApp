@@ -54,6 +54,7 @@ class PaopaiActivity: BaseActivity<ActivityPaopaiBinding, PaopaiVM>(), View.OnCl
 
         initPlayerRv()
 
+        setScoreTv()
     }
 
     fun setScoreTv(){
@@ -69,7 +70,6 @@ class PaopaiActivity: BaseActivity<ActivityPaopaiBinding, PaopaiVM>(), View.OnCl
                 state = STATE_PLAYING
                 changeUIState()
                 dealCard()
-                setScoreTv()
                 if (lastPlayer==null)lastPlayer = play1
                 if (currentPlayer==null)currentPlayer = play1
                 if (currentPlayer!=play1)aiChuPai()
@@ -259,6 +259,8 @@ class PaopaiActivity: BaseActivity<ActivityPaopaiBinding, PaopaiVM>(), View.OnCl
             addMsg(currentPlayer?.name?:"")
             addMsg("赢了")
             addMsg("\n")
+            addMsg("\n")
+            tvShowBottom()
             state = STATE_STOP
             changeUIState()
             currentCards = null
@@ -281,15 +283,19 @@ class PaopaiActivity: BaseActivity<ActivityPaopaiBinding, PaopaiVM>(), View.OnCl
 
     fun dealCard(){
         totleCard.addAll(listPaopai)
+        play1.cards.clear()
+        play2.cards.clear()
+        play3.cards.clear()
+        play4.cards.clear()
+
+
         for (i in 1 .. totleCard.size){
                     val card = totleCard.random()
 //            SLog.d(i.toString()+","+card.getCardText())
 //            result.append(card.toString()+","+card.getCardText())
 //            result.append("\n")
                     when(i%4){
-                        0->{
-                            play1.addCard(card)
-                        }
+                        0->play1.addCard(card)
                         1->play2.addCard(card)
                         2->play3.addCard(card)
                         3->play4.addCard(card)
@@ -301,28 +307,29 @@ class PaopaiActivity: BaseActivity<ActivityPaopaiBinding, PaopaiVM>(), View.OnCl
         play2.checkCark()
         play3.checkCark()
         play4.checkCark()
-        result.append("Player1:")
-        result.append("\n")
-        result.append(play1.showCard())
-        result.append("\n")
-        result.append("\n")
-        result.append("Player2:")
-        result.append("\n")
-        result.append(play2.showCard())
-        result.append("\n")
-        result.append("\n")
-        result.append("Player3:")
-        result.append("\n")
-        result.append(play3.showCard())
-        result.append("\n")
-        result.append("\n")
-        result.append("Player4:")
-        result.append("\n")
-        result.append(play4.showCard())
-        result.append("\n")
-        result.append("\n")
-        mBinding.tvResult.text = result.toString()
-        tvShowBottom()
+
+//        result.append("Player1:")
+//        result.append("\n")
+//        result.append(play1.showCard())
+//        result.append("\n")
+//        result.append("\n")
+//        result.append("Player2:")
+//        result.append("\n")
+//        result.append(play2.showCard())
+//        result.append("\n")
+//        result.append("\n")
+//        result.append("Player3:")
+//        result.append("\n")
+//        result.append(play3.showCard())
+//        result.append("\n")
+//        result.append("\n")
+//        result.append("Player4:")
+//        result.append("\n")
+//        result.append(play4.showCard())
+//        result.append("\n")
+//        result.append("\n")
+//        mBinding.tvResult.text = result.toString()
+//        tvShowBottom()
 
         play1.sort()
 
