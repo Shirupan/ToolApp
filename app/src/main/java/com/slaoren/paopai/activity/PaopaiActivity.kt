@@ -66,6 +66,10 @@ class PaopaiActivity: BaseActivity<ActivityPaopaiBinding, PaopaiVM>(), View.OnCl
                 currentPlayer = play1
             }
             mBinding.btnChupai -> {
+                if (state!=STATE_PLAYING){
+                    Toast.makeText(this, "游戏未开始", Toast.LENGTH_SHORT).show()
+                    return
+                }
                 if (currentPlayer!=play1){
                     Toast.makeText(this, "还没轮到你", Toast.LENGTH_SHORT).show()
                     return
@@ -73,6 +77,10 @@ class PaopaiActivity: BaseActivity<ActivityPaopaiBinding, PaopaiVM>(), View.OnCl
                 chupai()
             }
             mBinding.btnBuYao -> {
+                if (state!=STATE_PLAYING){
+                    Toast.makeText(this, "游戏未开始", Toast.LENGTH_SHORT).show()
+                    return
+                }
                 SLog.d("play:"+currentPlayer?.name+", "+lastPlayer?.name)
                 if (currentPlayer!=play1){
                     Toast.makeText(this, "还没轮到你", Toast.LENGTH_SHORT).show()
@@ -145,25 +153,24 @@ class PaopaiActivity: BaseActivity<ActivityPaopaiBinding, PaopaiVM>(), View.OnCl
     }
 
     fun chupai(){
-        if (state!=STATE_PLAYING){
-            Toast.makeText(this, "游戏未开始", Toast.LENGTH_SHORT).show()
-            return
-        }
+
         var indexs = mutableListOf<Card>()
-        addMsg(play1.name+":")
+        var msg = play1.name+":"
         p1Adapter.value.data.forEachIndexed { index, card ->
             if (card.isSelected){
                 indexs.add(card)
-                addMsg(card.getCardText()+" ")
+                msg+=card.getCardText()+" "
             }
         }
-        addMsg("\n")
-        tvShowBottom()
+
 
         indexs.reverse()
 
-        if(lastPlayer==play1 && play1.checkChupai(indexs, null)
-                ||play1.checkChupai(indexs, currentCards)){
+        if (indexs.isNullOrEmpty()){
+            Toast.makeText(this, "没有任何牌选中", Toast.LENGTH_SHORT).show()
+            return
+        }else if(lastPlayer==play1 && play1.checkSelectChupai(indexs, null)//第一个出
+                ||play1.checkSelectChupai(indexs, currentCards)){//不是第一个出
             indexs.forEach {
                 play1.cards.remove(it)
             }
@@ -172,6 +179,9 @@ class PaopaiActivity: BaseActivity<ActivityPaopaiBinding, PaopaiVM>(), View.OnCl
             Toast.makeText(this, "不能这么出", Toast.LENGTH_SHORT).show()
             return
         }
+
+        addMsg(msg+"\n")
+        tvShowBottom()
 
         if (win()){
             return
@@ -229,6 +239,7 @@ class PaopaiActivity: BaseActivity<ActivityPaopaiBinding, PaopaiVM>(), View.OnCl
                 }
 
                 currentPlayer = play1
+                tvShowBottom()
             }
         }
 
@@ -240,6 +251,10 @@ class PaopaiActivity: BaseActivity<ActivityPaopaiBinding, PaopaiVM>(), View.OnCl
             state = STATE_STOP
             changeUIState()
             currentCards = null
+            play1.countScore()
+            play2.countScore()
+            play3.countScore()
+            play4.countScore()
             return true
         }
         return false

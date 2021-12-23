@@ -106,7 +106,7 @@ open class AI(var name:String):IAIPaoPai{
     //是否有大与目标的,返回Card.num
     override fun checkDanzhang(value:Card):Int{
         numMap.forEach{
-            SLog.d("checkDanzhang: "+it.key+":"+it.value+","+value.getExtNum())
+//            SLog.d("checkDanzhang: "+it.key+":"+it.value+","+value.getExtNum())
             if(it.key>value.getExtNum()&&it.value>0){
                 return it.key
             }
@@ -223,5 +223,16 @@ open class AI(var name:String):IAIPaoPai{
             }
         }
         return if (result.size==4) result else null
+    }
+
+    override fun countScore() {
+        val num = listCard.size
+        score+=when (num) {
+            in 0..7 -> num
+            in 8..9 -> num*2
+            in 10..12 -> num*3
+            13->52
+            else->0
+        }
     }
 }

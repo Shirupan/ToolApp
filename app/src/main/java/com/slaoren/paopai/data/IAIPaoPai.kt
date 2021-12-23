@@ -31,4 +31,6 @@ interface IAIPaoPai {
     fun firstTimeChuPai():List<Card>?
 
     fun findBi(cardSmallestNum:Int):List<Card>?
+
+    fun countScore()
 }
