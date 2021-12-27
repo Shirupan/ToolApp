@@ -56,7 +56,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".paopai.activity.PaopaiActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="landscape" />
         <service
             android:name="com.slaoren.wallpaper.VideoWallPaperService"
             android:permission="android.permission.BIND_WALLPAPER">
