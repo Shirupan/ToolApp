@@ -22,8 +22,9 @@ import kotlinx.coroutines.*
 /**
  * 跑牌
  * 2021.11.29
+ *
  */
-
+//todo 翻点
 class PaopaiActivity: BaseActivity<ActivityPaopaiBinding, PaopaiVM>(), View.OnClickListener, CoroutineScope by MainScope(){
     var result = StringBuilder()//记录结果
     var totleCard = mutableListOf<Card>()
@@ -98,6 +99,17 @@ class PaopaiActivity: BaseActivity<ActivityPaopaiBinding, PaopaiVM>(), View.OnCl
                 if (lastPlayer==play1){
                     Toast.makeText(this, "现在轮到你出牌了", Toast.LENGTH_SHORT).show()
                     return
+                }
+                if (!currentCards.isNullOrEmpty()){
+                    val value = play1.buyao(currentCards!!)
+                    if (value?.isNotEmpty()==true){
+                        var str = ""
+                        value?.forEach {
+                            str+=it.text
+                        }
+                        Toast.makeText(this, "你还有牌出(${str})，不要就52", Toast.LENGTH_SHORT).show()
+                        return
+                    }
                 }
                 currentPlayer = play2
                 addMsg(play1.name+":")
@@ -180,9 +192,7 @@ class PaopaiActivity: BaseActivity<ActivityPaopaiBinding, PaopaiVM>(), View.OnCl
             return
         }else if(lastPlayer==play1 && play1.checkSelectChupai(indexs, null)//第一个出
                 ||play1.checkSelectChupai(indexs, currentCards)){//不是第一个出
-            indexs.forEach {
-                play1.cards.remove(it)
-            }
+            play1.chupai(indexs)
             p1Adapter.value.notifyDataSetChanged()
         }else{
             Toast.makeText(this, "不能这么出", Toast.LENGTH_SHORT).show()
@@ -288,22 +298,23 @@ class PaopaiActivity: BaseActivity<ActivityPaopaiBinding, PaopaiVM>(), View.OnCl
         play3.cards.clear()
         play4.cards.clear()
 
-
-        for (i in 1 .. totleCard.size){
-                    val card = totleCard.random()
+        for (i in 1 .. totleCard.size){//循环总牌数
+            val card = totleCard.random()//总牌数变了，但是从剩下的牌中随机取出一个并不影响
 //            SLog.d(i.toString()+","+card.getCardText())
 //            result.append(card.toString()+","+card.getCardText())
 //            result.append("\n")
-                    when(i%4){
-                        0->play1.addCard(card)
-                        1->play2.addCard(card)
-                        2->play3.addCard(card)
-                        3->play4.addCard(card)
-                    }
+            card.isSelected = false
+            when(i%4){
+                0->play1.addCard(card)
+                1->play2.addCard(card)
+                2->play3.addCard(card)
+                3->play4.addCard(card)
+            }
 
-                    totleCard.remove(card)
+            totleCard.remove(card)//从牌堆中取出
 
         }
+        play1.checkCark()
         play2.checkCark()
         play3.checkCark()
         play4.checkCark()

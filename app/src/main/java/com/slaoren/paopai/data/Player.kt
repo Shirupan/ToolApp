@@ -1,5 +1,7 @@
 package com.slaoren.paopai.data
 
+import com.slaoren.common.util.SLog
+
 class Player(name:String) : AI(name) {
 
 
@@ -42,5 +44,32 @@ class Player(name:String) : AI(name) {
         }
 
         return true
+    }
+
+    fun buyao(lastCards: List<Card>):List<Card>?{
+        SLog.d("buyao List:"+aiChupai(lastCards))
+        return aiChupai(lastCards)
+    }
+
+    //和AI不同的是不从集合中去掉找到的牌
+    override fun findCards(cardNum:Int, cardSize:Int):List<Card>?{
+        var result = cards.filter {
+            SLog.d("findCards:"+cardNum%14)
+            it.num == cardNum%14
+        } as MutableList
+
+        val size = result.size-cardSize
+        return if(size>=0){
+            result.subList(0, cardSize)
+        }else {
+            null
+        }
+    }
+
+    fun chupai(selectCards: List<Card>){
+        selectCards.forEach {
+            cards.remove(it)
+            numMap[it.getExtNum()] = numMap[it.getExtNum()]!!-1
+        }
     }
 }
